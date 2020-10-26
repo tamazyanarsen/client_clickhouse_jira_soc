@@ -26,11 +26,21 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+In this tutorial, we'll add JWT authentication to protect our RESTful endpoints from unauthorized access.
+
+
+> Read [Nest.js Tutorial: Build your First REST API CRUD App with TypeORM](https://www.techiediaries.com/nestjs-tutorial-rest-api-crud)
+>
+> [Nest.js Tutorial: JWT Authentication with Passport.js](https://www.techiediaries.com/nestjs-tutorial-jwt-authentication)
+
+```bash
+$ git clone https://github.com/techiediaries/nestjs-jwt-authentication.git
+```
 
 ## Installation
 
 ```bash
+$ cd nestjs-jwt-authentication
 $ npm install
 ```
 
@@ -42,6 +52,10 @@ $ npm run start
 
 # watch mode
 $ npm run start:dev
+
+# incremental rebuild (webpack)
+$ npm run webpack
+$ npm run start:hmr
 
 # production mode
 $ npm run start:prod
@@ -60,15 +74,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
