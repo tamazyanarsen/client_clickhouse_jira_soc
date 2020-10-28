@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const authReq = req.clone({
-      // headers: req.headers.set('Session', '123456789'),
+      // headers: req.headers.set('Session', '123456789').set('Access-Control-Allow-Origin', '*'),
     })
 
     return next.handle(authReq).pipe(
