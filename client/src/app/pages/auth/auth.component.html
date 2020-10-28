@@ -1,14 +1,14 @@
-<form [formGroup]="form" class="form">
+<form (ngSubmit)="submit()" [formGroup]="form" class="form">
   <mat-form-field appearance="standard">
     <mat-label>Логин</mat-label>
-    <input matInput placeholder="Введите логин">
+    <input matInput placeholder="Введите логин" formControlName="login">
 <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
 <!--    <mat-hint>Ввод логина</mat-hint>-->
   </mat-form-field>
   <br>
   <mat-form-field>
     <mat-label>Пароль</mat-label>
-    <input matInput formControlName="password">
+    <input matInput formControlName="password" type="password">
   </mat-form-field>
   <br>
   <button mat-raised-button>Войти</button>

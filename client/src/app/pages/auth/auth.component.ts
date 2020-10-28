@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   templateUrl: './auth.component.html',
@@ -8,7 +9,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 export class AuthComponent implements OnInit {
   form: FormGroup;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.form = new FormGroup({
       login: new FormControl(''),
       password: new FormControl('')
@@ -16,6 +17,10 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  submit() {
+    this.authService.register({ ...this.form.value, email: 'test@test.com' }).subscribe(console.log);
   }
 
 }
