@@ -500,6 +500,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+
 
 
 
@@ -513,13 +515,13 @@ let AuthGuard = class AuthGuard {
         this.check();
         if (localStorage.getItem('accessToken')) {
             console.log('check accessToken', localStorage.getItem('accessToken'));
-            return this.http.get(`/api/auth/validate/${localStorage.getItem('accessToken')}`);
+            return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].url + `/api/auth/validate/${localStorage.getItem('accessToken')}`);
         }
         return false;
     }
     check() {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
-            const res = yield this.http.get(`/api/auth/validate/${localStorage.getItem('accessToken')}`).toPromise();
+            const res = yield this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].url + `/api/auth/validate/${localStorage.getItem('accessToken')}`).toPromise();
             console.log(res);
             if (!res) {
                 this.router.navigate(['/auth']);
@@ -725,6 +727,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+
 
 
 
@@ -735,12 +739,12 @@ let AuthService = class AuthService {
     login(user) {
         const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
         headers.set('Content-Type', 'application/json');
-        return this.httpClient.post('/api/auth/login', user, { headers });
+        return this.httpClient.post(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].url + '/api/auth/login', user, { headers });
     }
     register(user) {
         const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
         headers.set('Content-Type', 'application/json');
-        return this.httpClient.post('/api/auth/register', user, { headers });
+        return this.httpClient.post(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].url + '/api/auth/register', user, { headers });
     }
 };
 AuthService.ctorParameters = () => [
@@ -772,7 +776,8 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 
 const environment = {
-    production: false
+    production: false,
+    url: ''
 };
 /*
  * For easier debugging in development mode, you can import the following file

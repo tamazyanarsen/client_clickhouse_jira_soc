@@ -1025,6 +1025,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! @angular/common/http */
     "./node_modules/@angular/common/fesm2015/http.js");
+    /* harmony import */
+
+
+    var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ../../environments/environment */
+    "./src/environments/environment.ts");
 
     var AuthGuard = /*#__PURE__*/function () {
       function AuthGuard(http, router) {
@@ -1041,7 +1047,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           if (localStorage.getItem('accessToken')) {
             console.log('check accessToken', localStorage.getItem('accessToken'));
-            return this.http.get("/api/auth/validate/".concat(localStorage.getItem('accessToken')));
+            return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].url + "/api/auth/validate/".concat(localStorage.getItem('accessToken')));
           }
 
           return false;
@@ -1056,7 +1062,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 switch (_context.prev = _context.next) {
                   case 0:
                     _context.next = 2;
-                    return this.http.get("/api/auth/validate/".concat(localStorage.getItem('accessToken'))).toPromise();
+                    return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].url + "/api/auth/validate/".concat(localStorage.getItem('accessToken'))).toPromise();
 
                   case 2:
                     res = _context.sent;
@@ -1420,6 +1426,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! @angular/common/http */
     "./node_modules/@angular/common/fesm2015/http.js");
+    /* harmony import */
+
+
+    var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ../../environments/environment */
+    "./src/environments/environment.ts");
 
     var AuthService = /*#__PURE__*/function () {
       function AuthService(httpClient) {
@@ -1433,7 +1445,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function login(user) {
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
           headers.set('Content-Type', 'application/json');
-          return this.httpClient.post('/api/auth/login', user, {
+          return this.httpClient.post(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].url + '/api/auth/login', user, {
             headers: headers
           });
         }
@@ -1442,7 +1454,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function register(user) {
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
           headers.set('Content-Type', 'application/json');
-          return this.httpClient.post('/api/auth/register', user, {
+          return this.httpClient.post(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].url + '/api/auth/register', user, {
             headers: headers
           });
         }
@@ -1493,7 +1505,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     var environment = {
-      production: false
+      production: false,
+      url: ''
     };
     /*
      * For easier debugging in development mode, you can import the following file
