@@ -13,11 +13,13 @@ import { MatButtonModule } from "@angular/material/button";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./core/auth.interceptor";
 import { AuthGuard } from "./core/auth.guard";
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

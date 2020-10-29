@@ -27,7 +27,8 @@ export class UserService {
         });
     }
 
-    async create(user: User): Promise<User> {
-        return await this.userRepository.save(user);
+    async create(user: User): Promise<{id, name}> {
+        const resultUser = await this.userRepository.save(user);
+        return {id: resultUser.id, name: resultUser.name};
     }
 }

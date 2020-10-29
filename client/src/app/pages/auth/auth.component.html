@@ -1,15 +1,29 @@
 <form (ngSubmit)="submit()" [formGroup]="form" class="form">
-  <mat-form-field appearance="standard">
-    <mat-label>Логин</mat-label>
-    <input matInput placeholder="Введите логин" formControlName="login">
-<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
-<!--    <mat-hint>Ввод логина</mat-hint>-->
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <mat-label>Пароль</mat-label>
-    <input matInput formControlName="password" type="password">
-  </mat-form-field>
-  <br>
-  <button mat-raised-button>Войти</button>
+    <mat-form-field appearance="standard">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Введите почту" formControlName="email">
+    </mat-form-field>
+    <br>
+    <div *ngIf="isRegisterMode">
+        <mat-form-field appearance="standard">
+            <mat-label>Имя</mat-label>
+            <input matInput placeholder="Введите имя" formControlName="name">
+        </mat-form-field>
+        <br>
+    </div>
+    <mat-form-field>
+        <mat-label>Пароль</mat-label>
+        <input matInput formControlName="password" type="password">
+    </mat-form-field>
+    <div *ngIf="isRegisterMode">
+        <br>
+        <button mat-raised-button type="button" (click)="isRegisterMode = false">Войти</button>
+    </div>
+    <div *ngIf="!isRegisterMode">
+        <br>
+        <button mat-raised-button type="button" (click)="isRegisterMode = true">Регистрация</button>
+    </div>
+    <div>
+        <button mat-raised-button>{{isRegisterMode ? 'Регистрация' : 'Войти'}}</button>
+    </div>
 </form>
