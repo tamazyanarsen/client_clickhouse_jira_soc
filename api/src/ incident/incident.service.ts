@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {IncidentDTO, VariationType} from './incident.interface';
+import {IncidentDTO, VariationStatus, VariationType} from './incident.interface';
 import {IncidentsState} from './state';
 import * as lod from 'lodash';
 import {Repository} from 'typeorm';
@@ -15,7 +15,7 @@ export class IncidentService {
         return this.incidentsArr;
     }
 
-    private getCountIncidentOfType(type: VariationType): number {
+    private getCountIncidentByType(type: VariationType): number {
         return lod.filter(
             this.incidentsArr,
             (incident: IncidentDTO): boolean => {
@@ -24,15 +24,48 @@ export class IncidentService {
         ).length;
     }
 
-    public getIncidentsByType() {
+    public getIncidentsByType(): {
+        critical: number,
+        normal: number,
+        warning: number,
+    } {
         return {
-            critical: this.getCountIncidentOfType('critical'),
-            normal: this.getCountIncidentOfType('normal'),
-            warning: this.getCountIncidentOfType('warning'),
+            critical: this.getCountIncidentByType('critical'),
+            normal: this.getCountIncidentByType('normal'),
+            warning: this.getCountIncidentByType('warning'),
         };
     }
 
-    public getIncidentsTotalInfo() {
+    private getCountIncidentPerDay(): number{
+        const dayMillis = 24 * 3600 * 1000;
+        return lod.filter(
+            this.incidentsArr,
+            (incident: IncidentDTO): boolean => {
+                return new Date().getTime() - incident.timeStamp.getTime() <= dayMillis;
+            },
+        ).length;
+    }
 
+    private getCountIncidentByStatus(status: VariationStatus): number {
+        return lod.filter(
+            this.incidentsArr,
+            (incident: IncidentDTO): boolean => {
+                return incident.status === status;
+            },
+        ).length;
+    }
+
+    public getIncidentsTotalInfo(): {
+        total: number,
+        perday: number,
+        unresolved: number,
+        resolved: number,
+    } {
+        return {
+            total: this.incidentsArr.length,
+            perday: this.getCountIncidentPerDay(),
+            unresolved: this.getCountIncidentByStatus('unresolved'),
+            resolved: this.getCountIncidentByStatus('resolved'),
+        };
     }
 }

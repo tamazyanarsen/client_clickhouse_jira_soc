@@ -16,12 +16,13 @@ export function generateIncidents(incidentState: IncidentsState, num: number = 1
     const incidents: IncidentDTO[] = incidentState.incidents;
     const types: string[] = ['critical', 'normal', 'warning'];
     const statuses: string[] = ['unresolved', 'resolved'];
+    const someDay = 72 * 3600 * 1000;
     for (let i: number = 0; i < num; i++){
         incidents.push({
             type: types[randomValueBetween(0, types.length - 1)],
             timeStamp: new Date(
                 randomValueBetween(
-                    new Date().getTime() - (48 * 3600 * 1000),
+                    new Date().getTime() - someDay,
                     new Date().getTime(),
                 ),
             ),

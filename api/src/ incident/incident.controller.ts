@@ -15,8 +15,21 @@ export class IncidentController{
     }
 
     @Get('/bytype')
-    getIncidentsByType(): any{
+    getIncidentsByType(): {
+        critical: number,
+        normal: number,
+        warning: number,
+    }{
         return this.incidentService.getIncidentsByType();
     }
 
+    @Get('/total')
+    getIncidentsTotal(): {
+        total: number,
+        perday: number,
+        unresolved: number,
+        resolved: number,
+    }{
+        return this.incidentService.getIncidentsTotalInfo();
+    }
 }
