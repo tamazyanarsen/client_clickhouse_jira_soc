@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ContactsModule } from './contacts/contacts.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
+import {Module} from '@nestjs/common';
+import {AppController} from './app.controller';
+import {AppService} from './app.service';
+import {ContactsModule} from './contacts/contacts.module';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {AuthModule} from './auth/auth.module';
+import {IncidentModule} from './ incident/incident.module';
 
 @Module({
     imports: [ContactsModule,
@@ -12,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
             database: 'db',
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: true,
-        }), AuthModule],
+        }), AuthModule, IncidentModule],
     controllers: [AppController],
     providers: [AppService],
 })
