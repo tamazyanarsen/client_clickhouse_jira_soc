@@ -14,30 +14,32 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./core/auth.interceptor";
 import { AuthGuard } from "./core/auth.guard";
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ChartsModule, ThemeService } from "ng2-charts";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    DashboardComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    HttpClientModule
-  ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true
-  }, AuthGuard],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        AuthComponent,
+        DashboardComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        HttpClientModule,
+        ChartsModule
+    ],
+    providers: [{
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+    }, AuthGuard, ThemeService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

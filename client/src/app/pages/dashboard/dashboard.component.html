@@ -1,1 +1,26 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+    <div class="dashboard__widget">
+        <h2>Тип инцидентов</h2>
+        <div class="dashboard__widget_display">
+            <div>
+                <ul>
+                    <li>Критические: 0</li>
+                    <li>Обычные: 0</li>
+                    <li>Важные: 0</li>
+                </ul>
+            </div>
+            <div>
+                <canvas baseChart
+                        [data]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions"
+                        [plugins]="pieChartPlugins"
+                        [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div>виджет 2</div>
+    <div>виджет 3</div>
+</div>
