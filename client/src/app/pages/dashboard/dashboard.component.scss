@@ -1,0 +1,15 @@
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 50%;
+    margin: auto;
+
+    &__widget {
+        display: flex;
+        flex-direction: column;
+
+        &_display {
+            display: flex;
+        }
+    }
+}
