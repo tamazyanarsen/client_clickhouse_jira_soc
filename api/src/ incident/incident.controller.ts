@@ -1,35 +1,47 @@
-import {Get, Controller, Param} from '@nestjs/common';
-import {IncidentService} from './incident.service';
-import { JwtService } from '@nestjs/jwt';
-import {IncidentDTO} from './incident.interface';
-import {Repository} from 'typeorm';
+import { Controller, Get } from '@nestjs/common';
+import { IncidentService } from './incident.service';
+import { IncidentDTO } from './incident.interface';
 
-@Controller('incident')
-export class IncidentController{
+@Controller('api/incident')
+export class IncidentController {
     constructor(private readonly incidentService: IncidentService) {
     }
 
     @Get()
-    getIncidents(): IncidentDTO[]{
+    getIncidents(): IncidentDTO[] {
         return this.incidentService.getIncidents();
     }
 
-    @Get('/bytype')
+    @Get('bytype')
+    @authDecorator()
     getIncidentsByType(): {
         critical: number,
         normal: number,
         warning: number,
-    }{
+    } {
         return this.incidentService.getIncidentsByType();
     }
 
-    @Get('/total')
+    @Get('total')
     getIncidentsTotal(): {
         total: number,
         perday: number,
         unresolved: number,
         resolved: number,
-    }{
+    } {
         return this.incidentService.getIncidentsTotalInfo();
     }
 }
+
+function authDecorator () {
+    return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) => {
+        const method = descriptor.value;
+        descriptor.value = function(...args) {
+            console.time(propertyName || 'LogTime');
+            const result = method.apply(this, args);
+            console.timeEnd(propertyName || 'LogTime');
+            return result;
+        };
+    };
+};
+

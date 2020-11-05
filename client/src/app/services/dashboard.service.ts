@@ -11,6 +11,6 @@ export class DashboardService {
     }
 
     getIncidentsByType() {
-        return this.http.get(environment.url + '/incident/bytype');
+        return this.http.get(environment.url + 'api/incident/bytype');
     }
 }
