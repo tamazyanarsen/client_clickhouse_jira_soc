@@ -13,13 +13,14 @@ export class IncidentController {
     }
 
     @Get('bytype')
-    @authDecorator()
-    getIncidentsByType(): {
-        critical: number,
-        normal: number,
-        warning: number,
-    } {
-        return this.incidentService.getIncidentsByType();
+    async getIncidentsByType(): Promise<any> {
+        const issues = (await this.incidentService.jira.searchJira(`project=DEBUG`)).issues;
+        return {
+            critical: issues.filter(e => e.fields.priority.name === 'High').length,
+            normal: issues.filter(e => e.fields.priority.name === 'Low').length,
+            warning: issues.filter(e => e.fields.priority.name === 'Medium').length,
+        };
+        // return this.incidentService.getIncidentsByType();
     }
 
     @Get('total')
@@ -32,16 +33,3 @@ export class IncidentController {
         return this.incidentService.getIncidentsTotalInfo();
     }
 }
-
-function authDecorator () {
-    return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) => {
-        const method = descriptor.value;
-        descriptor.value = function(...args) {
-            console.time(propertyName || 'LogTime');
-            const result = method.apply(this, args);
-            console.timeEnd(propertyName || 'LogTime');
-            return result;
-        };
-    };
-};
-

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from "ng2-charts";
-import { ChartOptions, ChartType } from "chart.js";
-import { DashboardService } from "../../services/dashboard.service";
+import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
+import { ChartOptions, ChartType } from 'chart.js';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public pieChartOptions: ChartOptions = {
         responsive: true,
         legend: {
-            position: "left",
+            position: 'left',
         }
     };
     // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
