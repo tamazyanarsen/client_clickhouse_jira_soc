@@ -11,6 +11,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     data: { critical: number, normal: number, warning: number };
 
+    widget1Loading = true;
+    widget2Loading = true;
+
     public pieChartOptions: ChartOptions = {
         responsive: true,
         legend: {
@@ -19,10 +22,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     };
     // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
     public pieChartLabels: Label[] = ['Критические', 'Важные', 'Обычные'];
-    public pieChartData: SingleDataSet = [300, 500, 100];
+    public pieChartData: SingleDataSet = [0, 0, 0];
     public pieChartType: ChartType = 'pie';
     public pieChartLegend = true;
     public pieChartPlugins = [];
+
+    public widget2Labels = ['', '', ''];
+    public widget2Data = [0, 0, 0];
 
     constructor(private dashboardService: DashboardService) {
         monkeyPatchChartJsTooltip();
@@ -35,7 +41,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 this.data = e;
                 this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
                 this.pieChartData = [e.critical, e.warning, e.normal];
+                this.widget1Loading = false;
             });
+        this.dashboardService.getIncidentsTotal().subscribe((e: {
+            perDay: number,
+            inProgress: number,
+            done: number
+        }) => {
+            this.widget2Labels = ['Новые за 24 часа', 'В работе', 'Расследовано'];
+            this.widget2Data = [e.perDay, e.inProgress, e.done];
+            this.widget2Loading = false;
+        });
     }
 
     ngAfterViewInit() {

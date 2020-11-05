@@ -13,4 +13,8 @@ export class DashboardService {
     getIncidentsByType() {
         return this.http.get(environment.url + '/api/incident/bytype');
     }
+
+    getIncidentsTotal() {
+        return this.http.get(environment.url + '/api/incident/total');
+    }
 }

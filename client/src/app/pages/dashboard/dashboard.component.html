@@ -2,7 +2,7 @@
     <div class="dashboard__widget">
         <h2>Тип инцидентов</h2>
         <div class="dashboard__widget_display">
-            <div>
+            <div *ngIf="!widget1Loading">
                 <canvas baseChart
                         [data]="pieChartData"
                         [labels]="pieChartLabels"
@@ -17,10 +17,10 @@
     <div class="dashboard__widget">
         <h2>Тип инцидентов</h2>
         <div class="dashboard__widget_display">
-            <div>
+            <div *ngIf="!widget2Loading">
                 <canvas baseChart
-                        [data]="pieChartData"
-                        [labels]="pieChartLabels"
+                        [data]="widget2Data"
+                        [labels]="widget2Labels"
                         [chartType]="pieChartType"
                         [options]="pieChartOptions"
                         [plugins]="pieChartPlugins"
