@@ -35,8 +35,8 @@ let UserService = class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRepository.findOne({
                 where: {
-                    email: email,
-                }
+                    email,
+                },
             });
         });
     }
@@ -44,8 +44,8 @@ let UserService = class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRepository.findOne({
                 where: {
-                    id: id,
-                }
+                    id,
+                },
             });
         });
     }

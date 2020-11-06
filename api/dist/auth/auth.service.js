@@ -18,11 +18,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthService = void 0;
+exports.AuthService = exports.validateAccessToken = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const user_service_1 = require("./user.service");
 const crypto = require("crypto");
+function validateAccessToken(accessToken, jwtService) {
+    try {
+        jwtService.verify(accessToken);
+        return true;
+    }
+    catch (e) {
+        return false;
+    }
+}
+exports.validateAccessToken = validateAccessToken;
 let AuthService = class AuthService {
     constructor(userService, jwtService) {
         this.userService = userService;
@@ -36,11 +46,9 @@ let AuthService = class AuthService {
     login(user) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.validateUser(user).then((userData) => {
-                console.log(user);
                 user.password = crypto.createHmac('sha256', user.password).digest('hex');
-                console.log(user.password, userData.password);
                 if (!userData || user.password !== userData.password) {
-                    return { status: 404 };
+                    return { status: 401 };
                 }
                 const payload = `${userData.name}${userData.id}`;
                 const accessToken = this.jwtService.sign(payload);
@@ -57,15 +65,6 @@ let AuthService = class AuthService {
         return __awaiter(this, void 0, void 0, function* () {
             return this.userService.create(user);
         });
-    }
-    validateAccessToken(token) {
-        try {
-            console.log(this.jwtService.verify(token));
-            return true;
-        }
-        catch (e) {
-            return false;
-        }
     }
 };
 AuthService = __decorate([

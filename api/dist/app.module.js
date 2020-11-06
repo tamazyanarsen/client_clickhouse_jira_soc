@@ -10,20 +10,19 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const contacts_module_1 = require("./contacts/contacts.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const auth_module_1 = require("./auth/auth.module");
+const incident_module_1 = require("./ incident/incident.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
-        imports: [contacts_module_1.ContactsModule,
-            typeorm_1.TypeOrmModule.forRoot({
+        imports: [typeorm_1.TypeOrmModule.forRoot({
                 type: 'sqlite',
                 database: 'db',
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: true,
-            }), auth_module_1.AuthModule],
+            }), auth_module_1.AuthModule, incident_module_1.IncidentModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

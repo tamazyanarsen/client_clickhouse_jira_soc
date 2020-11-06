@@ -6,22 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContactsModule = void 0;
+exports.IncidentModule = void 0;
 const common_1 = require("@nestjs/common");
-const contacts_service_1 = require("./contacts.service");
-const contacts_controller_1 = require("./contacts/contacts.controller");
-const typeorm_1 = require("@nestjs/typeorm");
-const contact_entity_1 = require("./contact.entity");
-let ContactsModule = class ContactsModule {
+const incident_service_1 = require("./incident.service");
+const incident_controller_1 = require("./incident.controller");
+const auth_module_1 = require("../auth/auth.module");
+let IncidentModule = class IncidentModule {
 };
-ContactsModule = __decorate([
+IncidentModule = __decorate([
     common_1.Module({
-        imports: [
-            typeorm_1.TypeOrmModule.forFeature([contact_entity_1.Contact]),
-        ],
-        providers: [contacts_service_1.ContactsService],
-        controllers: [contacts_controller_1.ContactsController]
+        imports: [auth_module_1.AuthModule],
+        controllers: [incident_controller_1.IncidentController],
+        providers: [incident_service_1.IncidentService],
     })
-], ContactsModule);
-exports.ContactsModule = ContactsModule;
-//# sourceMappingURL=contacts.module.js.map
+], IncidentModule);
+exports.IncidentModule = IncidentModule;
+//# sourceMappingURL=incident.module.js.map

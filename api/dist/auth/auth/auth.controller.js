@@ -25,9 +25,11 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("../auth.service");
 const user_entity_1 = require("../user.entity");
+const jwt_1 = require("@nestjs/jwt");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, jwtService) {
         this.authService = authService;
+        this.jwtService = jwtService;
     }
     login(user) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -41,7 +43,15 @@ let AuthController = class AuthController {
     }
     validateToken(accessToken) {
         console.log(accessToken);
-        return this.authService.validateAccessToken(accessToken);
+        return auth_service_1.validateAccessToken(accessToken, this.jwtService);
+    }
+    test(accessToken) {
+        if (auth_service_1.validateAccessToken(accessToken, this.jwtService)) {
+            return accessToken;
+        }
+        else {
+            return { status: 401 };
+        }
     }
 };
 __decorate([
@@ -65,9 +75,17 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Boolean)
 ], AuthController.prototype, "validateToken", null);
+__decorate([
+    common_1.Post('validatetest'),
+    __param(0, common_1.Headers('authorization')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Object)
+], AuthController.prototype, "test", null);
 AuthController = __decorate([
     common_1.Controller('api/auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        jwt_1.JwtService])
 ], AuthController);
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controller.js.map
