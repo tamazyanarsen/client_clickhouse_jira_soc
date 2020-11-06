@@ -1,8 +1,9 @@
 .dashboard {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    max-width: 80%;
     margin: auto;
+    //background-color: #383838d9;
+    color: white;
 
     &__widget {
         display: flex;
@@ -10,6 +11,20 @@
 
         &_display {
             display: flex;
+        }
+    }
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    background-color: #383838d9;
+    color: white;
+    height: 100%;
+
+    .menu {
+        &__item {
+            cursor: pointer;
         }
     }
 }

@@ -1,6 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+export declare function validateAccessToken(accessToken: string, jwtService: JwtService): boolean;
 export declare class AuthService {
     private readonly userService;
     private readonly jwtService;
@@ -10,5 +11,4 @@ export declare class AuthService {
         status: number;
     }>;
     register(user: User): Promise<any>;
-    validateAccessToken(token: string): boolean;
 }

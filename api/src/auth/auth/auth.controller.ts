@@ -23,7 +23,7 @@ export class AuthController {
     @Get('validate/:access_token')
     validateToken(@Param('access_token') accessToken: string): boolean {
         console.log(accessToken);
-        return this.authService.validateAccessToken(accessToken);
+        return validateAccessToken(accessToken, this.jwtService);
     }
 
     // @Post('validatetest')
