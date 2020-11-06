@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IncidentDTO, VariationStatus, VariationType } from './incident.interface';
 import { IncidentsState } from './state';
 import * as lod from 'lodash';
-import { Repository } from 'typeorm';
+
 const JiraApi = require('jira-client');
 
 @Injectable()
@@ -17,6 +17,8 @@ export class IncidentService {
         apiVersion: '2',
         strictSSL: true,
     });
+
+    public ClickHouse = require('@apla/clickhouse');
 
     constructor() {
     }

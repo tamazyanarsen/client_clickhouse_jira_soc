@@ -2,6 +2,7 @@ import { IncidentDTO } from './incident.interface';
 export declare class IncidentService {
     private incidentsArr;
     jira: any;
+    ClickHouse: any;
     constructor();
     getIncidents(): IncidentDTO[];
     private getCountIncidentByType;

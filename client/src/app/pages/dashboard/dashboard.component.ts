@@ -30,8 +30,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public widget2Labels = ['', '', ''];
     public widget2Data = [0, 0, 0];
 
-    public widget3Labels = ['1 sec', '2 sec', '3 sec'];
-    public widget3Data: ChartDataSets[] = [{data: [1, 2, 3], label: 'сообщ./сек.'}];
+    public widget3Labels = ['1 sec'];
+    public widget3Data: ChartDataSets[] = [{ data: [0], label: 'сообщ./сек.' }];
 
     constructor(private dashboardService: DashboardService) {
         monkeyPatchChartJsTooltip();
@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.dashboardService.getIncidentsByType()
             .subscribe((e: { critical: number, normal: number, warning: number }) => {
                 this.data = e;
+                // this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
                 this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
                 this.pieChartData = [e.critical, e.warning, e.normal];
                 this.widget1Loading = false;
@@ -57,6 +58,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.widget2Data = [e.perDay, e.inProgress, e.done];
             this.widget2Total = e.inProgress + e.done;
             this.widget2Loading = false;
+        });
+        this.dashboardService.getTraffic().subscribe(count => {
+            this.widget3Labels = ['Всего'];
+            this.widget3Data = [{ data: [count], label: 'сообщ./сек.' }];
         });
     }
 

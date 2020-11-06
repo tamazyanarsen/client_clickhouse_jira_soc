@@ -17,4 +17,8 @@ export class DashboardService {
     getIncidentsTotal() {
         return this.http.get(environment.url + '/api/incident/total');
     }
+
+    getTraffic() {
+        return this.http.get(environment.url + '/api/incident/traffic');
+    }
 }

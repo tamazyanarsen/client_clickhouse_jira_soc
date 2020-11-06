@@ -5,10 +5,6 @@ export declare class IncidentController {
     constructor(incidentService: IncidentService);
     getIncidents(): IncidentDTO[];
     getIncidentsByType(): Promise<any>;
-    getIncidentsTotal(): {
-        total: number;
-        perday: number;
-        unresolved: number;
-        resolved: number;
-    };
+    getIncidentsTotal(): Promise<any>;
+    getTraffic(): Promise<any>;
 }
