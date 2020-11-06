@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
@@ -30,10 +30,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public widget2Labels = ['', '', ''];
     public widget2Data = [0, 0, 0];
 
+    public widget3Labels = ['1 sec', '2 sec', '3 sec'];
+    public widget3Data: ChartDataSets[] = [{data: [1, 2, 3], label: 'сообщ./сек.'}];
+
     constructor(private dashboardService: DashboardService) {
         monkeyPatchChartJsTooltip();
         monkeyPatchChartJsLegend();
     }
+
+    widget2Total = 0;
 
     ngOnInit() {
         this.dashboardService.getIncidentsByType()
@@ -50,6 +55,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }) => {
             this.widget2Labels = ['Новые за 24 часа', 'В работе', 'Расследовано'];
             this.widget2Data = [e.perDay, e.inProgress, e.done];
+            this.widget2Total = e.inProgress + e.done;
             this.widget2Loading = false;
         });
     }

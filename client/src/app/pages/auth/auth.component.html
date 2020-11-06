@@ -1,29 +1,31 @@
-<form (ngSubmit)="submit()" [formGroup]="form" class="form">
-    <mat-form-field appearance="standard">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Введите почту" formControlName="email">
-    </mat-form-field>
-    <br>
-    <div *ngIf="isRegisterMode">
+<div class="auth">
+    <form (ngSubmit)="submit()" [formGroup]="form" class="form">
         <mat-form-field appearance="standard">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Введите почту" formControlName="email" type="email">
+        </mat-form-field>
+        <br>
+        <mat-form-field *ngIf="isRegisterMode" appearance="standard">
             <mat-label>Имя</mat-label>
             <input matInput placeholder="Введите имя" formControlName="name">
         </mat-form-field>
         <br>
-    </div>
-    <mat-form-field>
-        <mat-label>Пароль</mat-label>
-        <input matInput formControlName="password" type="password">
-    </mat-form-field>
-    <div *ngIf="isRegisterMode">
-        <br>
-        <button mat-raised-button type="button" (click)="isRegisterMode = false">Войти</button>
-    </div>
-    <div *ngIf="!isRegisterMode">
-        <br>
-        <button mat-raised-button type="button" (click)="isRegisterMode = true">Регистрация</button>
-    </div>
-    <div>
-        <button mat-raised-button>{{isRegisterMode ? 'Регистрация' : 'Войти'}}</button>
-    </div>
-</form>
+        <mat-form-field>
+            <mat-label>Пароль</mat-label>
+            <input matInput formControlName="password" type="password">
+        </mat-form-field>
+        <div class="submit-block">
+            <div *ngIf="isRegisterMode">
+                <br>
+                <a type="button" (click)="isRegisterMode = false">Войти</a>
+            </div>
+            <div *ngIf="!isRegisterMode">
+                <br>
+                <a (click)="isRegisterMode = true">Регистрация</a>
+            </div>
+            <div>
+                <button mat-raised-button>{{isRegisterMode ? 'Регистрация' : 'Войти'}}</button>
+            </div>
+        </div>
+    </form>
+</div>

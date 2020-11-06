@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="dashboard__widget">
-        <h2>Тип инцидентов</h2>
+        <h2>Инциденты, всего: {{widget2Total}}</h2>
         <div class="dashboard__widget_display">
             <div *ngIf="!widget2Loading">
                 <canvas baseChart
@@ -30,13 +30,13 @@
         </div>
     </div>
     <div class="dashboard__widget">
-        <h2>Тип инцидентов</h2>
+        <h2>Траффик</h2>
         <div class="dashboard__widget_display">
             <div>
                 <canvas baseChart
-                        [data]="pieChartData"
-                        [labels]="pieChartLabels"
-                        [chartType]="pieChartType"
+                        [datasets]="widget3Data"
+                        [labels]="widget3Labels"
+                        chartType="bar"
                         [options]="pieChartOptions"
                         [plugins]="pieChartPlugins"
                         [legend]="pieChartLegend">
