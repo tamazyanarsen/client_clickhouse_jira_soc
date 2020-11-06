@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {IncidentService} from './incident.service';
 import {IncidentController} from './incident.controller';
+import {JwtService} from '@nestjs/jwt';
+import {AuthModule} from '../auth/auth.module';
 
 @Module({
-    imports: [],
+    imports: [AuthModule],
     controllers: [IncidentController],
     providers: [IncidentService],
 })
