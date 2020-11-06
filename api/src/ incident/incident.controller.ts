@@ -80,5 +80,4 @@ export class IncidentController {
         } else {
             return {status: 401};
         }
-    }
 }
