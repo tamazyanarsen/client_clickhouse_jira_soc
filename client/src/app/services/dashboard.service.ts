@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +11,14 @@ export class DashboardService {
     }
 
     getIncidentsByType() {
-        return this.http.get(environment.url + '/incident/bytype');
+        return this.http.get(environment.url + '/api/incident/bytype');
+    }
+
+    getIncidentsTotal() {
+        return this.http.get(environment.url + '/api/incident/total');
+    }
+
+    getTraffic() {
+        return this.http.get(environment.url + '/api/incident/traffic');
     }
 }

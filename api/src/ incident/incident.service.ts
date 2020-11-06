@@ -1,6 +1,6 @@
-import {Injectable} from '@nestjs/common';
-import {IncidentDTO, VariationStatus, VariationType} from './incident.interface';
-import {IncidentsState} from './state';
+import { Injectable } from '@nestjs/common';
+import { IncidentDTO, VariationStatus, VariationType } from './incident.interface';
+import { IncidentsState } from './state';
 import * as lod from 'lodash';
 
 const JiraApi = require('jira-client');
@@ -48,7 +48,7 @@ export class IncidentService {
         };
     }
 
-    private getCountIncidentPerDay(): number{
+    private getCountIncidentPerDay(): number {
         const dayMillis = 24 * 3600 * 1000;
         return lod.filter(
             this.incidentsArr,

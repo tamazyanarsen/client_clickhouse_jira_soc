@@ -32,8 +32,6 @@ export class AuthComponent implements OnInit {
     }
 
     login() {
-        //   //  {accessToken, expiresIn, userId, status}
-
         this.authService.login({ ...JSON.parse(localStorage.getItem('user')), ...this.form.value }).subscribe(answer => {
             localStorage.setItem('user.auth', JSON.stringify(answer));
             localStorage.setItem('accessToken', answer.access_token);
@@ -44,6 +42,7 @@ export class AuthComponent implements OnInit {
     register() {
         this.authService.register({ ...this.form.value }).subscribe(user => {
             localStorage.setItem('user', JSON.stringify(user));
+            // this.form.reset();
             this.isRegisterMode = false;
         });
     }

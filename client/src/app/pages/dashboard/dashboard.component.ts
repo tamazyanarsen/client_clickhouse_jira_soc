@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from "ng2-charts";
-import { ChartOptions, ChartType } from "chart.js";
+import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -8,29 +9,63 @@ import { ChartOptions, ChartType } from "chart.js";
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
+    data: { critical: number, normal: number, warning: number };
+
+    widget1Loading = true;
+    widget2Loading = true;
+
     public pieChartOptions: ChartOptions = {
         responsive: true,
         legend: {
-            position: "left",
+            position: 'left',
         }
     };
     // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
     public pieChartLabels: Label[] = ['Критические', 'Важные', 'Обычные'];
-    public pieChartData: SingleDataSet = [300, 500, 100];
+    public pieChartData: SingleDataSet = [0, 0, 0];
     public pieChartType: ChartType = 'pie';
     public pieChartLegend = true;
     public pieChartPlugins = [];
 
-    constructor() {
+    public widget2Labels = ['', '', ''];
+    public widget2Data = [0, 0, 0];
+
+    public widget3Labels = ['1 sec'];
+    public widget3Data: ChartDataSets[] = [{ data: [0], label: 'сообщ./сек.' }];
+
+    constructor(private dashboardService: DashboardService) {
         monkeyPatchChartJsTooltip();
         monkeyPatchChartJsLegend();
     }
 
+    widget2Total = 0;
+
     ngOnInit() {
+        this.dashboardService.getIncidentsByType()
+            .subscribe((e: { critical: number, normal: number, warning: number }) => {
+                this.data = e;
+                // this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
+                this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
+                this.pieChartData = [e.critical, e.warning, e.normal];
+                this.widget1Loading = false;
+            });
+        this.dashboardService.getIncidentsTotal().subscribe((e: {
+            perDay: number,
+            inProgress: number,
+            done: number
+        }) => {
+            this.widget2Labels = ['Новые за 24 часа', 'В работе', 'Расследовано'];
+            this.widget2Data = [e.perDay, e.inProgress, e.done];
+            this.widget2Total = e.inProgress + e.done;
+            this.widget2Loading = false;
+        });
+        this.dashboardService.getTraffic().subscribe(count => {
+            this.widget3Labels = ['Всего'];
+            this.widget3Data = [{ data: [count], label: 'сообщ./сек.' }];
+        });
     }
 
     ngAfterViewInit() {
-
     }
 
 }
