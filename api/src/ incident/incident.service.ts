@@ -2,11 +2,23 @@ import {Injectable} from '@nestjs/common';
 import {IncidentDTO, VariationStatus, VariationType} from './incident.interface';
 import {IncidentsState} from './state';
 import * as lod from 'lodash';
-import {Repository} from 'typeorm';
+
+const JiraApi = require('jira-client');
 
 @Injectable()
 export class IncidentService {
     private incidentsArr: IncidentDTO[] = IncidentsState.getInstance().incidents;
+
+    public jira = new JiraApi({
+        protocol: 'https',
+        host: 'sd.soc.secure-soft.tech',
+        username: 'web-app-user',
+        password: 'ZLn8g$uLpZurnZ',
+        apiVersion: '2',
+        strictSSL: true,
+    });
+
+    public ClickHouse = require('@apla/clickhouse');
 
     constructor() {
     }
