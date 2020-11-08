@@ -1,15 +1,17 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
 import * as ld from 'lodash';
 import { AuthService } from '../../services/auth.service';
+import { interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private dashboardService: DashboardService, private authService: AuthService) {
         monkeyPatchChartJsTooltip();
@@ -75,6 +77,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     isWidget3Minutes = true;
 
+    destroy$ = new Subject();
+
+    ngOnDestroy() {
+        this.destroy$.next(true);
+    }
+
     ngOnInit() {
         this.dashboardService.getIncidentsByType()
             .subscribe((e: { critical: number, normal: number, warning: number }) => {
@@ -106,10 +114,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
         this.widget3Data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
         this.dashboardService.getTraffic().subscribe(result => {
+            console.log('get result for widget3:', result);
             this.widget3Arr = result;
             this.showWidget3Seconds();
-            this.widget3Loading = false;
         });
+
+        interval(1000 * 60)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(val => {
+                this.dashboardService.getTraffic().subscribe(result => {
+                    console.log('get result for widget3:', result);
+                    this.widget3Arr = result;
+                    this.showWidget3Seconds();
+                });
+            });
     }
 
     logout() {
@@ -118,7 +136,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     showWidget3Seconds() {
         const result = this.widget3Arr;
-        this.widget3Labels = Object.keys(result).map(e => new Date(e).toJSON().split('T')[1].split(':').join(':'));
+        this.widget3Labels = Object.keys(result).map(e => new Date(e).toString().split(' ')[4]);
         this.widget3Data = [{ data: Object.values(result).map((e: any) => e.length), label: 'сообщ./сек.' }];
         localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
         localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data));

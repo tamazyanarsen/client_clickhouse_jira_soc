@@ -63,13 +63,17 @@ export class IncidentController {
     async getTraffic(@Headers('authorization') accessToken: string): Promise<any> {
         if (validateAccessToken(accessToken, this.jwtService)) {
             const ch = new this.incidentService.ClickHouse({ host: 'srv-ch-11.int.soc.secure-soft.tech' });
-            const answer = await ch.querying('SELECT * FROM Etanol_PROD.DataFlow_v2 LIMIT 5000 FORMAT JSONEachRow');
+            const searchDate = new Date(Date.now());
+            searchDate.setMinutes(searchDate.getMinutes() - 1);
+            // ORDER BY time_app_sec DESC
+            const rawLimit = 5000;
+            const answer = await ch.querying(
+                // tslint:disable-next-line:max-line-length
+                `SELECT * FROM Etanol_PROD.DataFlow_v2 WHERE time_event_sec > ${searchDate.getTime().toString().slice(0, -3)} LIMIT ${rawLimit} FORMAT JSONEachRow`);
             const data = answer.split('\n').filter(e => e.length > 0).map(e => JSON.parse(e));
-            const date = new Date();
-            date.setDate(date.getDate() - 30);
-            const result = data
-                .filter(e => new Date(e.time_db_sec) > date)
-                .map(e => new Date(e.time_db_sec));
+            console.log(data.slice(0, 5), data.length);
+            const result = data.map(e => new Date(parseInt(e.time_event_sec + '000', 10)));
+            console.log('result:', result.slice(0, 2));
             return ld.groupBy(result);
             // return Object.keys(groupData).map(e => ({[e]: groupData[e].length}));
         } else {
