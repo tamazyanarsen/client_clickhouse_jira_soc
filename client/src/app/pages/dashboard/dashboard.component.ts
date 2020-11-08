@@ -114,7 +114,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
         this.widget3Data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
         this.dashboardService.getTraffic().subscribe(result => {
-            console.log('get result for widget3:', result);
             this.widget3Arr = result;
             this.showWidget3Seconds();
         });
@@ -123,7 +122,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(val => {
                 this.dashboardService.getTraffic().subscribe(result => {
-                    console.log('get result for widget3:', result);
                     this.widget3Arr = result;
                     this.showWidget3Seconds();
                 });
