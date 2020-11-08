@@ -1,5 +1,6 @@
 <div class="auth">
     <form (ngSubmit)="submit()" [formGroup]="form" class="form">
+        <h3 *ngIf="errorMsgs.length" class="error">{{errorMsgs.join('\n')}}</h3>
         <mat-form-field appearance="standard">
             <mat-label>Email</mat-label>
             <input matInput placeholder="Введите почту" formControlName="email" type="email">
@@ -12,20 +13,23 @@
         <br>
         <mat-form-field>
             <mat-label>Пароль</mat-label>
-            <input matInput formControlName="password" type="password">
+            <input matInput formControlName="password" type="password" required>
         </mat-form-field>
         <div class="submit-block">
-            <div *ngIf="isRegisterMode">
-                <br>
-                <a type="button" (click)="isRegisterMode = false">Войти</a>
-            </div>
-            <div *ngIf="!isRegisterMode">
-                <br>
-                <a (click)="isRegisterMode = true">Регистрация</a>
-            </div>
             <div>
-                <button mat-raised-button>{{isRegisterMode ? 'Регистрация' : 'Войти'}}</button>
+                <button [disabled]="form.invalid" mat-raised-button>{{isRegisterMode ? 'Регистрация' : 'Войти'}}</button>
             </div>
         </div>
     </form>
+    <div class="radio-group">
+        <mat-radio-group
+            [(ngModel)]="isRegisterMode">
+            <mat-radio-button [value]="true" class="item" (click)="errorMsgs = []">
+                Регистрация
+            </mat-radio-button>
+            <mat-radio-button [value]="false" class="item" (click)="errorMsgs = []">
+                Вход
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
 </div>

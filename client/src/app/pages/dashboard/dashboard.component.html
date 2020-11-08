@@ -4,50 +4,55 @@
             <h3>Выйти</h3>
         </a>
     </div>
-    <div class="dashboard">
-        <div class="dashboard__widget">
-            <h2>Тип инцидентов</h2>
-            <div class="dashboard__widget_display">
-                <div *ngIf="!widget1Loading">
-                    <canvas baseChart
-                            [data]="pieChartData"
-                            [labels]="pieChartLabels"
-                            [chartType]="pieChartType"
-                            [options]="pieChartOptions"
-                            [plugins]="pieChartPlugins"
-                            [legend]="pieChartLegend">
-                    </canvas>
+    <div class="right-block">
+        <div>
+            <a routerLink="/">Главная</a> / <span>Инфопанель</span>
+        </div>
+        <div class="dashboard">
+            <div class="dashboard__widget">
+                <h2>Тип инцидентов</h2>
+                <div class="dashboard__widget_display">
+                    <div>
+                        <canvas baseChart
+                                [data]="pieChartData"
+                                [labels]="pieChartLabels"
+                                [chartType]="pieChartType"
+                                [options]="pieChartOptions"
+                                [plugins]="pieChartPlugins"
+                                [legend]="pieChartLegend">
+                        </canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="dashboard__widget">
-            <h2>Инциденты, всего: {{widget2Total}}</h2>
-            <div class="dashboard__widget_display">
-                <div *ngIf="!widget2Loading">
-                    <canvas baseChart
-                            [data]="widget2Data"
-                            [labels]="widget2Labels"
-                            [chartType]="pieChartType"
-                            [options]="pieChartOptions"
-                            [plugins]="pieChartPlugins"
-                            [legend]="pieChartLegend">
-                    </canvas>
+            <div class="dashboard__widget">
+                <h2>Инциденты, всего: {{widget2Total}}</h2>
+                <div class="dashboard__widget_display">
+                    <div>
+                        <canvas baseChart
+                                [data]="widget2Data"
+                                [labels]="widget2Labels"
+                                [chartType]="pieChartType"
+                                [options]="pieChartOptions"
+                                [plugins]="pieChartPlugins"
+                                [legend]="pieChartLegend">
+                        </canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="dashboard__widget">
-            <h2>Траффик</h2>
-            <div class="dashboard__widget_display">
-                <div *ngIf="!widget3Loading">
-                    <button mat-raised-button (click)="refreshTraffic()">Показать в {{isWidget3Minutes ? 'секундах' : 'минутах'}}</button>
-                    <canvas baseChart
-                            [datasets]="widget3Data"
-                            [labels]="widget3Labels"
-                            chartType="bar"
-                            [options]="widget3Options"
-                            [plugins]="pieChartPlugins"
-                            [legend]="pieChartLegend">
-                    </canvas>
+            <div class="dashboard__widget">
+                <h2>Траффик</h2>
+                <div class="dashboard__widget_display">
+                    <div>
+                        <!--                    <button mat-raised-button (click)="refreshTraffic()">Показать в {{isWidget3Minutes ? 'секундах' : 'минутах'}}</button>-->
+                        <canvas baseChart
+                                [datasets]="widget3Data"
+                                [labels]="widget3Labels"
+                                chartType="bar"
+                                [options]="widget3Options"
+                                [plugins]="pieChartPlugins"
+                                [legend]="pieChartLegend">
+                        </canvas>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,20 +3,25 @@
 }
 
 div, button {
-    margin: 1%;
+    //margin: 1%;
 }
 
 .auth {
     max-width: 60%;
     margin: auto;
+    padding-top: 5%;
     display: flex;
-    align-items: center;
+    //align-items: center;
     justify-content: center;
 
     form {
         display: flex;
         width: 100%;
         flex-direction: column;
+
+        .error {
+            color: lightcoral;
+        }
 
         a:hover {
             cursor: pointer;
@@ -26,5 +31,11 @@ div, button {
 
     .submit-block {
         display: flex;
+    }
+}
+
+.radio-group {
+    .item {
+        padding: 1%;
     }
 }

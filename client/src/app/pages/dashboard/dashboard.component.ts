@@ -57,8 +57,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
     };
     // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-    public pieChartLabels: Label[] = ['Критические', 'Важные', 'Обычные'];
-    public pieChartData: SingleDataSet = [0, 0, 0];
+    public pieChartLabels: Label[] = JSON.parse(localStorage.getItem('widget1Labels')) || ['Критические', 'Важные', 'Обычные'];
+    public pieChartData: SingleDataSet = JSON.parse(localStorage.getItem('widget1Data')) || [0, 0, 0];
     public pieChartType: ChartType = 'pie';
     public pieChartLegend = true;
     public pieChartPlugins = [];
@@ -79,11 +79,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.dashboardService.getIncidentsByType()
             .subscribe((e: { critical: number, normal: number, warning: number }) => {
                 this.data = e;
-                // this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
                 this.pieChartLabels = [`Критические: ${e.critical}`, `Важные: ${e.warning}`, `Обычные: ${e.normal}`];
                 this.pieChartData = [e.critical, e.warning, e.normal];
+                localStorage.setItem('widget1Labels', JSON.stringify(this.pieChartLabels));
+                localStorage.setItem('widget1Data', JSON.stringify(this.pieChartData));
                 this.widget1Loading = false;
             });
+
+        this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels')) || this.widget2Labels;
+        this.widget2Data = JSON.parse(localStorage.getItem('widget2Data')) || this.widget2Data;
+        this.widget2Total = JSON.parse(localStorage.getItem('widget2Total')) || this.widget2Total;
         this.dashboardService.getIncidentsTotal().subscribe((e: {
             perDay: number,
             inProgress: number,
@@ -92,11 +97,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.widget2Labels = ['Новые за 24 часа', 'В работе', 'Расследовано'];
             this.widget2Data = [e.perDay, e.inProgress, e.done];
             this.widget2Total = e.inProgress + e.done;
+            localStorage.setItem('widget2Labels', JSON.stringify(this.widget2Labels));
+            localStorage.setItem('widget2Data', JSON.stringify(this.widget2Data));
+            localStorage.setItem('widget2Total', JSON.stringify(this.widget2Total));
             this.widget2Loading = false;
         });
+
+        this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
+        this.widget3Data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
         this.dashboardService.getTraffic().subscribe(result => {
             this.widget3Arr = result;
-            this.showWidget3Minutes();
+            this.showWidget3Seconds();
             this.widget3Loading = false;
         });
     }
@@ -109,6 +120,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         const result = this.widget3Arr;
         this.widget3Labels = Object.keys(result).map(e => new Date(e).toJSON().split('T')[1].split(':').join(':'));
         this.widget3Data = [{ data: Object.values(result).map((e: any) => e.length), label: 'сообщ./сек.' }];
+        localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
+        localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data));
         this.isWidget3Minutes = false;
     }
 

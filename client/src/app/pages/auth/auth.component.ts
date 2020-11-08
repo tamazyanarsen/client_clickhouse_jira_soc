@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -8,17 +8,19 @@ import { Router } from '@angular/router';
     styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-    form: FormGroup;
 
     constructor(private authService: AuthService, private router: Router) {
         this.form = new FormGroup({
-            email: new FormControl(''),
+            email: new FormControl('', Validators.email),
             name: new FormControl(''),
             password: new FormControl('')
         });
     }
+    form: FormGroup;
 
     isRegisterMode = false;
+
+    errorMsgs = [];
 
     ngOnInit() {
     }
@@ -32,11 +34,15 @@ export class AuthComponent implements OnInit {
     }
 
     login() {
+        this.errorMsgs = [];
         this.authService.login({ ...JSON.parse(localStorage.getItem('user')), ...this.form.value }).subscribe(answer => {
+            if (answer.status === 401 || answer.status === 400) {
+                this.errorMsgs.push('Нужна регистрация');
+            }
             localStorage.setItem('user.auth', JSON.stringify(answer));
             localStorage.setItem('accessToken', answer.access_token);
             this.router.navigate(['/dashboard']).then();
-        });
+        }, console.error);
     }
 
     register() {
@@ -44,7 +50,7 @@ export class AuthComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(user));
             // this.form.reset();
             this.isRegisterMode = false;
-        });
+        }, console.error);
     }
 
 }
