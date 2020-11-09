@@ -59,8 +59,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         },
     };
     // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-    public pieChartLabels: Label[] = JSON.parse(localStorage.getItem('widget1Labels')) || ['Критические', 'Важные', 'Обычные'];
-    public pieChartData: SingleDataSet = JSON.parse(localStorage.getItem('widget1Data')) || [0, 0, 0];
+    public pieChartLabels: Label[] = JSON.parse(localStorage.getItem('widget1Labels') || '') || ['Критические', 'Важные', 'Обычные'];
+    public pieChartData: SingleDataSet = JSON.parse(localStorage.getItem('widget1Data') || '') || [0, 0, 0];
     public pieChartType: ChartType = 'pie';
     public pieChartLegend = true;
     public pieChartPlugins = [];
@@ -96,9 +96,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.widget1Loading = false;
             });
 
-        this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels')) || this.widget2Labels;
-        this.widget2Data = JSON.parse(localStorage.getItem('widget2Data')) || this.widget2Data;
-        this.widget2Total = JSON.parse(localStorage.getItem('widget2Total')) || this.widget2Total;
+        this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels') || '') || this.widget2Labels;
+        this.widget2Data = JSON.parse(localStorage.getItem('widget2Data') || '') || this.widget2Data;
+        this.widget2Total = JSON.parse(localStorage.getItem('widget2Total') || '') || this.widget2Total;
         this.dashboardService.getIncidentsTotal().subscribe((e: {
             perDay: number,
             inProgress: number,
@@ -114,8 +114,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             this.widget2Loading = false;
         });
 
-        this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
-        this.widget3Data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
+        this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels') || '') || this.widget3Labels;
+        this.widget3Data = JSON.parse(localStorage.getItem('widget3Data') || '') || this.widget3Data;
         this.dashboardService.getTraffic().subscribe(result => {
             // this.widget3Arr = result;
             this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
