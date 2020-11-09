@@ -59,8 +59,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         },
     };
     // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-    public pieChartLabels: Label[] = JSON.parse(localStorage.getItem('widget1Labels') || '') || ['Критические', 'Важные', 'Обычные'];
-    public pieChartData: SingleDataSet = JSON.parse(localStorage.getItem('widget1Data') || '') || [0, 0, 0];
+    public pieChartLabels: Label[];
+    public pieChartData: SingleDataSet;
     public pieChartType: ChartType = 'pie';
     public pieChartLegend = true;
     public pieChartPlugins = [];
@@ -86,6 +86,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        try {
+            this.pieChartLabels = JSON.parse(localStorage.getItem('widget1Labels') || '') || ['Критические', 'Важные', 'Обычные'];
+            this.pieChartData = JSON.parse(localStorage.getItem('widget1Data') || '') || [0, 0, 0];
+        } catch (e) {
+            this.pieChartLabels = ['Критические', 'Важные', 'Обычные'];
+            this.pieChartData = [0, 0, 0];
+        }
+
         this.dashboardService.getIncidentsByType()
             .subscribe((e: { critical: number, normal: number, warning: number }) => {
                 this.data = e;
@@ -96,9 +104,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.widget1Loading = false;
             });
 
-        this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels') || '') || this.widget2Labels;
-        this.widget2Data = JSON.parse(localStorage.getItem('widget2Data') || '') || this.widget2Data;
-        this.widget2Total = JSON.parse(localStorage.getItem('widget2Total') || '') || this.widget2Total;
+        try {
+            this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels') || '') || this.widget2Labels;
+            this.widget2Data = JSON.parse(localStorage.getItem('widget2Data') || '') || this.widget2Data;
+            this.widget2Total = JSON.parse(localStorage.getItem('widget2Total') || '') || this.widget2Total;
+        } catch (e) {
+        }
         this.dashboardService.getIncidentsTotal().subscribe((e: {
             perDay: number,
             inProgress: number,
