@@ -65,6 +65,7 @@ export class IncidentController {
             const ch = new this.incidentService.ClickHouse({ host: 'srv-ch-11.int.soc.secure-soft.tech' });
             const searchDate = new Date(Date.now());
             searchDate.setMinutes(searchDate.getMinutes() - 1);
+            console.log('searchDate', searchDate);
             // ORDER BY time_app_sec DESC
             const rawLimit = 5000;
             const answer = await ch.querying(
