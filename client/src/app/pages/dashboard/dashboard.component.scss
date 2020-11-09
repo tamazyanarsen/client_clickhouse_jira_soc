@@ -22,6 +22,11 @@
     color: white;
     height: 100%;
 
+    canvas {
+        height: auto !important;
+        width: 95% !important;
+    }
+
     .menu {
         &__item {
             cursor: pointer;
