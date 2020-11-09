@@ -150,12 +150,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.dashboardService.getTraffic().subscribe(result => {
                     this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
                     if (this.widget3Labels.length > 10) {
-                        this.widget3Labels.splice(0, 1);
+                        this.widget3Labels.splice(0, this.widget3Labels.length % 10);
                     }
 
                     this.widget3Data[0].data.push(Math.round(+result / 60));
                     if (this.widget3Data[0].data.length > 10) {
-                        this.widget3Data[0].data.splice(0, 1);
+                        this.widget3Data[0].data.splice(0, this.widget3Data[0].data.length % 10);
                     }
                 });
             });
