@@ -104,11 +104,17 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.widget1Loading = false;
             });
 
-        try {
-            this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels')) || this.widget2Labels;
-            this.widget2Data = JSON.parse(localStorage.getItem('widget2Data')) || this.widget2Data;
-            this.widget2Total = JSON.parse(localStorage.getItem('widget2Total')) || this.widget2Total;
-        } catch (e) {
+        if (localStorage.getItem('widget2Labels')
+            && JSON.parse(localStorage.getItem('widget2Labels'))
+            && localStorage.getItem('widget2Data')
+            && JSON.parse(localStorage.getItem('widget2Data'))
+            && JSON.parse(localStorage.getItem('widget2Data')).length === JSON.parse(localStorage.getItem('widget2Labels')).length) {
+            try {
+                this.widget2Labels = JSON.parse(localStorage.getItem('widget2Labels')) || this.widget2Labels;
+                this.widget2Data = JSON.parse(localStorage.getItem('widget2Data')) || this.widget2Data;
+                this.widget2Total = JSON.parse(localStorage.getItem('widget2Total')) || this.widget2Total;
+            } catch (e) {
+            }
         }
         this.dashboardService.getIncidentsTotal().subscribe((e: {
             perDay: number,
@@ -125,10 +131,33 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             this.widget2Loading = false;
         });
 
-        this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
-        this.widget3Data[0].data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
+        if (localStorage.getItem('widget3Labels')
+            && localStorage.getItem('widget3Data')
+            && JSON.parse(localStorage.getItem('widget3Data'))
+            && JSON.parse(localStorage.getItem('widget3Labels'))
+            && JSON.parse(localStorage.getItem('widget3Data')).length === JSON.parse(localStorage.getItem('widget3Labels')).length) {
+            try {
+                this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
+                this.widget3Data[0].data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
+            } catch (e) {
+            }
+        }
         this.dashboardService.getTraffic().subscribe(result => {
-            // this.widget3Arr = result;
+            this.updateWidget3(result);
+        });
+        // console.log(this.widget3Data, this.widget3Labels);
+
+        interval(1000 * 60)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(val => {
+                this.dashboardService.getTraffic().subscribe(result => {
+                    this.updateWidget3(result);
+                });
+            });
+    }
+
+    updateWidget3(result) {
+        if (!this.widget3Labels.includes(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'))) {
             this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
             if (this.widget3Labels.length > 10) {
                 this.widget3Labels.splice(0, 1);
@@ -141,26 +170,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
             localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
             localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data[0].data));
-        });
-
-        interval(1000 * 60)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(val => {
-                this.dashboardService.getTraffic().subscribe(result => {
-                    this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
-                    if (this.widget3Labels.length > 10) {
-                        this.widget3Labels.splice(0, this.widget3Labels.length % 10);
-                    }
-
-                    this.widget3Data[0].data.push(Math.round(+result / 60));
-                    if (this.widget3Data[0].data.length > 10) {
-                        this.widget3Data[0].data.splice(0, this.widget3Data[0].data.length % 10);
-                    }
-
-                    localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
-                    localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data));
-                });
-            });
+        }
     }
 
     logout() {
