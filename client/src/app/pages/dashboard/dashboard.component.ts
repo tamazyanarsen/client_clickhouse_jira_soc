@@ -102,11 +102,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dashboardService.getIncidentsTotal().subscribe((e: {
             perDay: number,
             inProgress: number,
-            done: number
+            done: number,
+            total: number
         }) => {
             this.widget2Labels = ['Новые за 24 часа', 'В работе', 'Расследовано'];
             this.widget2Data = [e.perDay, e.inProgress, e.done];
-            this.widget2Total = e.inProgress + e.done;
+            this.widget2Total = e.total;
             localStorage.setItem('widget2Labels', JSON.stringify(this.widget2Labels));
             localStorage.setItem('widget2Data', JSON.stringify(this.widget2Data));
             localStorage.setItem('widget2Total', JSON.stringify(this.widget2Total));
