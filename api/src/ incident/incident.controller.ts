@@ -67,24 +67,11 @@ export class IncidentController {
     async getTraffic(@Headers('authorization') accessToken: string): Promise<any> {
         if (validateAccessToken(accessToken, this.jwtService)) {
             const ch = new this.incidentService.ClickHouse({ host: 'srv-ch-11.int.soc.secure-soft.tech' });
-            const searchDate = new Date();
-            searchDate.setMinutes(searchDate.getMinutes() - 1);
-            searchDate.setHours(searchDate.getHours() + 3);
-            console.log('searchDate', searchDate, searchDate.getTime().toString().slice(0, -3));
-            // ORDER BY time_app_sec DESC
-            const rawLimit = 5000;
-            const searchDateResult = searchDate.getTime().toString().slice(0, -3);
             const answer = await ch.querying(
                 // tslint:disable-next-line:max-line-length
-                    `SELECT count() FROM Etanol_PROD.DataFlow_v2 WHERE time_db_sec >  now() - 1000 FORMAT JSONCompact`);
-            console.log(answer.data[0][0]);
+                    `SELECT count() FROM Etanol_PROD.DataFlow_v2 WHERE time_db_sec >  now() - 60 FORMAT JSONCompact`);
+            // console.log(answer.data[0][0]);
             return answer.data[0][0];
-            // const data = answer.split('\n').filter(e => e.length > 0).map(e => JSON.parse(e));
-            // console.log(data.slice(0, 5), data.length);
-            // const result = data.map(e => new Date(parseInt(e.time_event_sec + '000', 10)));
-            // console.log('result:', result.slice(0, 2));
-            // return ld.groupBy(result);
-            // return Object.keys(groupData).map(e => ({[e]: groupData[e].length}));
         } else {
             return { status: 401 };
         }
