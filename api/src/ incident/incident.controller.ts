@@ -29,7 +29,7 @@ export class IncidentController {
         status: number,
     }> {
         if (validateAccessToken(accessToken, this.jwtService)) {
-            const issues = (await this.incidentService.jira.searchJira(`project=DEBUG`, { maxResults: 2000 })).issues;
+            const issues = (await this.incidentService.jira.searchJira(`project=DEBUG`, { maxResults: 5000 })).issues;
             return {
                 critical: issues.filter(e => e.fields.priority.name === 'Blocker'
                     && ['INVESTIGATE PROCESS', 'INVESTIGATED'].includes(e.fields.status.name.toUpperCase())).length,
@@ -48,7 +48,7 @@ export class IncidentController {
         status: number,
     }> {
         if (validateAccessToken(accessToken, this.jwtService)) {
-            const issues = (await this.incidentService.jira.searchJira(`project=DEBUG`, { maxResults: 2000 })).issues;
+            const issues = (await this.incidentService.jira.searchJira(`project=DEBUG`, { maxResults: 5000 })).issues;
             const date = new Date();
             date.setDate(date.getDate() - 2); // за последние 2 дня
             return {
