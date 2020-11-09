@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions, ChartType } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
 import * as ld from 'lodash';
 import { AuthService } from '../../services/auth.service';
@@ -68,8 +68,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public widget2Labels = ['', '', ''];
     public widget2Data = [0, 0, 0];
 
-    public widget3Labels = new Array(100).fill('');
-    public widget3Data: ChartDataSets[] = [{ data: new Array(100).fill(0), label: 'сообщ./сек.' }];
+    public widget3Labels = [];
+    public widget3Data: any = [{ data: [], label: 'сообщ./сек.' }];
 
     widget2Total = 0;
 
@@ -78,6 +78,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     isWidget3Minutes = true;
 
     destroy$ = new Subject();
+
+    widget3Count = 0;
 
     ngOnDestroy() {
         this.destroy$.next(true);
@@ -114,16 +116,35 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels')) || this.widget3Labels;
         this.widget3Data = JSON.parse(localStorage.getItem('widget3Data')) || this.widget3Data;
         this.dashboardService.getTraffic().subscribe(result => {
-            this.widget3Arr = result;
-            this.showWidget3Seconds();
+            // this.widget3Arr = result;
+            this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
+            if (this.widget3Labels.length > 10) {
+                this.widget3Labels.splice(0, 1);
+            }
+
+            this.widget3Data[0].data.push(Math.round(+result / 60));
+            if (this.widget3Data[0].data.length > 10) {
+                this.widget3Data[0].data.splice(0, 1);
+            }
+            // this.widget3Data = [{ data: (this.widget3Data[0].data || []), label: 'сообщ./сек.' }];
+
+            // console.log(this.widget3Labels, this.widget3Data);
+            // this.showWidget3Seconds();
         });
 
         interval(1000 * 60)
             .pipe(takeUntil(this.destroy$))
             .subscribe(val => {
                 this.dashboardService.getTraffic().subscribe(result => {
-                    this.widget3Arr = result;
-                    this.showWidget3Seconds();
+                    this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
+                    if (this.widget3Labels.length > 10) {
+                        this.widget3Labels.splice(0, 1);
+                    }
+
+                    this.widget3Data[0].data.push(Math.round(+result / 60));
+                    if (this.widget3Data[0].data.length > 10) {
+                        this.widget3Data[0].data.splice(0, 1);
+                    }
                 });
             });
     }
