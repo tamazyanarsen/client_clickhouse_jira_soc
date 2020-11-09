@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         this.widget3Labels = JSON.parse(localStorage.getItem('widget3Labels') || '') || this.widget3Labels;
-        this.widget3Data = JSON.parse(localStorage.getItem('widget3Data') || '') || this.widget3Data;
+        this.widget3Data[0].data = JSON.parse(localStorage.getItem('widget3Data') || '') || this.widget3Data;
         this.dashboardService.getTraffic().subscribe(result => {
             // this.widget3Arr = result;
             this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
@@ -140,7 +140,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             }
 
             localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
-            localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data));
+            localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data[0].data));
         });
 
         interval(1000 * 60)
