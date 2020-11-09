@@ -138,10 +138,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.widget3Data[0].data.length > 10) {
                 this.widget3Data[0].data.splice(0, 1);
             }
-            // this.widget3Data = [{ data: (this.widget3Data[0].data || []), label: 'сообщ./сек.' }];
 
-            // console.log(this.widget3Labels, this.widget3Data);
-            // this.showWidget3Seconds();
+            localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
+            localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data));
         });
 
         interval(1000 * 60)
@@ -157,6 +156,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (this.widget3Data[0].data.length > 10) {
                         this.widget3Data[0].data.splice(0, this.widget3Data[0].data.length % 10);
                     }
+
+                    localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
+                    localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data));
                 });
             });
     }
