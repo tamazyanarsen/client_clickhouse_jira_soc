@@ -1,6 +1,6 @@
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     //margin: auto;
     //background-color: #383838d9;
     color: white;
@@ -13,29 +13,28 @@
             display: flex;
         }
     }
+
+    &__widget3 {
+        grid-column: 1 / span 2;
+    }
 }
 
-.main-content {
-    display: grid;
-    grid-template-columns: 20% 80%;
-    background-color: #383838d9;
+.dashboard-content {
+    display: flex;
     color: white;
     height: 100%;
+    min-width: 78vw;
+    flex-direction: column;
+    padding-left: 2%;
 
     canvas {
         height: auto !important;
         width: 95% !important;
     }
 
-    .menu {
-        &__item {
-            cursor: pointer;
+    &__breadcrumbs {
+        a {
+            font-size: 1.1em;
         }
-    }
-
-    .right-block {
-        display: flex;
-        flex-direction: column;
-        padding-top: 2%;
     }
 }

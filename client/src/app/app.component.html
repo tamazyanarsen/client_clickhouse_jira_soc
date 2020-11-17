@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<div class="app">
+    <div class="app__menu">
+        <a mat-stroked-button class="app__menu_item" *ngFor="let item of menuItems">
+            {{item.name}}
+        </a>
+    </div>
+    <div class="app__content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

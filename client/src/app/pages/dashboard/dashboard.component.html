@@ -1,58 +1,51 @@
-<div class="main-content">
-    <div class="menu">
-        <a class="menu__item" (click)="logout()">
-            <h3>Выйти</h3>
-        </a>
+<div class="dashboard-content">
+    <div class="dashboard-content__breadcrumbs">
+        <a mat-button routerLink="/">Главная</a> / <span>Инфопанель</span>
     </div>
-    <div class="right-block">
-        <div>
-            <a routerLink="/">Главная</a> / <span>Инфопанель</span>
+    <div class="dashboard">
+        <div class="dashboard__widget">
+            <h2>Тип инцидентов</h2>
+            <div class="dashboard__widget_display">
+                <div>
+                    <canvas baseChart
+                            [data]="pieChartData"
+                            [labels]="pieChartLabels"
+                            [chartType]="pieChartType"
+                            [options]="pieChartOptions"
+                            [plugins]="pieChartPlugins"
+                            [legend]="pieChartLegend">
+                    </canvas>
+                </div>
+            </div>
         </div>
-        <div class="dashboard">
-            <div class="dashboard__widget">
-                <h2>Тип инцидентов</h2>
-                <div class="dashboard__widget_display">
-                    <div>
-                        <canvas baseChart
-                                [data]="pieChartData"
-                                [labels]="pieChartLabels"
-                                [chartType]="pieChartType"
-                                [options]="pieChartOptions"
-                                [plugins]="pieChartPlugins"
-                                [legend]="pieChartLegend">
-                        </canvas>
-                    </div>
+        <div class="dashboard__widget">
+            <h2>Инциденты, всего: {{widget2Total}}</h2>
+            <div class="dashboard__widget_display">
+                <div>
+                    <canvas baseChart
+                            [data]="widget2Data"
+                            [labels]="widget2Labels"
+                            [chartType]="pieChartType"
+                            [options]="pieChartOptions"
+                            [plugins]="pieChartPlugins"
+                            [legend]="pieChartLegend">
+                    </canvas>
                 </div>
             </div>
-            <div class="dashboard__widget">
-                <h2>Инциденты, всего: {{widget2Total}}</h2>
-                <div class="dashboard__widget_display">
-                    <div>
-                        <canvas baseChart
-                                [data]="widget2Data"
-                                [labels]="widget2Labels"
-                                [chartType]="pieChartType"
-                                [options]="pieChartOptions"
-                                [plugins]="pieChartPlugins"
-                                [legend]="pieChartLegend">
-                        </canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="dashboard__widget">
-                <h2>Траффик</h2>
-                <div class="dashboard__widget_display">
-                    <div>
-                        <!--                    <button mat-raised-button (click)="refreshTraffic()">Показать в {{isWidget3Minutes ? 'секундах' : 'минутах'}}</button>-->
-                        <canvas baseChart
-                                [datasets]="widget3Data"
-                                [labels]="widget3Labels"
-                                chartType="bar"
-                                [options]="widget3Options"
-                                [plugins]="pieChartPlugins"
-                                [legend]="pieChartLegend">
-                        </canvas>
-                    </div>
+        </div>
+        <div class="dashboard__widget dashboard__widget3">
+            <h2>Траффик</h2>
+            <div class="dashboard__widget_display">
+                <div style="width: 65%;">
+                    <!--                    <button mat-raised-button (click)="refreshTraffic()">Показать в {{isWidget3Minutes ? 'секундах' : 'минутах'}}</button>-->
+                    <canvas baseChart
+                            [datasets]="widget3Data"
+                            [labels]="widget3Labels"
+                            chartType="bar"
+                            [options]="widget3Options"
+                            [plugins]="pieChartPlugins"
+                            [legend]="pieChartLegend">
+                    </canvas>
                 </div>
             </div>
         </div>

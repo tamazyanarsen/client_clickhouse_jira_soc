@@ -29,7 +29,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         legend: {
             position: 'left',
             labels: {
-                fontColor: 'white'
+                fontColor: 'white',
+                fontSize: 16
             }
         },
         elements: {
@@ -40,11 +41,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 backgroundColor: 'white',
                 borderWidth: 0
             }
+        },
+        tooltips: {
+            bodyFontSize: 16,
+            titleFontSize: 16
         }
     };
     widget3Options = {
         ...this.pieChartOptions,
         scales: {
+            pointLabels: {
+                fontSize: 20
+            },
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
