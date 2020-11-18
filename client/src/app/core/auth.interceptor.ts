@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
         const token = localStorage.getItem('accessToken') || '';
         const authReq = req.clone({
             // headers: req.headers.set('Session', '123456789').set('Access-Control-Allow-Origin', '*'),
-            headers: req.headers.set('Authorization', token)
+            headers: req.headers.set('Authorization', token).set('Access-Control-Allow-Origin', '*'),
         });
 
         return next.handle(authReq).pipe(

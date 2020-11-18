@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post} from '@nestjs/common';
+import { Body, Controller, Get, Header, Headers, Param, Post } from '@nestjs/common';
 import {AuthService, validateAccessToken} from '../auth.service';
 import {User} from '../user.entity';
 import {JwtService} from '@nestjs/jwt';
@@ -21,6 +21,7 @@ export class AuthController {
     }
 
     @Get('validate/:access_token')
+    @Header('Access-Control-Allow-Origin', '*')
     validateToken(@Param('access_token') accessToken: string): boolean {
         console.log(accessToken);
         return validateAccessToken(accessToken, this.jwtService);

@@ -11,10 +11,11 @@
 
         &_display {
             display: flex;
+            max-height: 50vh;
         }
 
         &_width {
-            width: 80%;
+            width: 100%;
         }
     }
 

@@ -10,6 +10,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        position: relative;
 
         &_item {
             display: flex;
@@ -20,6 +21,12 @@
             margin: 2%;
             border-color: lightgoldenrodyellow;
             color: lightgoldenrodyellow;
+
+            &:last-child {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
 import { ChartOptions, ChartType } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    constructor(private dashboardService: DashboardService, private authService: AuthService) {
+    constructor(private dashboardService: DashboardService, private authService: AuthService, private changeRef: ChangeDetectorRef) {
         monkeyPatchChartJsTooltip();
         monkeyPatchChartJsLegend();
     }
@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public pieChartOptions: ChartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         legend: {
             position: 'left',
             labels: {
@@ -47,16 +48,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             titleFontSize: 16
         }
     };
-    widget3Options = {
+    widget3Options: ChartOptions = {
         ...this.pieChartOptions,
         scales: {
-            pointLabels: {
-                fontSize: 20
-            },
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    fontColor: 'white'
+                    fontColor: 'white',
+                    max: 300,
+                    min: 100,
+                    stepSize: 100,
+                    padding: 10,
+                    fontSize: 16
                 },
             }],
             xAxes: [{
@@ -165,19 +168,25 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     updateWidget3(result) {
+        const maxColumnsInBar = 20;
         if (!this.widget3Labels.includes(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'))) {
             this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
-            if (this.widget3Labels.length > 10) {
-                this.widget3Labels.splice(0, 1);
+            if (this.widget3Labels.length > maxColumnsInBar) {
+                this.widget3Labels.splice(0, this.widget3Labels.length - maxColumnsInBar);
             }
 
             this.widget3Data[0].data.push(Math.round(+result / 60));
-            if (this.widget3Data[0].data.length > 10) {
-                this.widget3Data[0].data.splice(0, 1);
+            if (this.widget3Data[0].data.length > maxColumnsInBar) {
+                this.widget3Data[0].data.splice(0, this.widget3Labels.length - maxColumnsInBar);
             }
 
             localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
             localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data[0].data));
+
+            // this.widget3Options.scales.yAxes[0].ticks.min = Math.min(...this.widget3Data[0].data) - 10;
+            // this.widget3Options.scales.yAxes[0].ticks.max = Math.min(...this.widget3Data[0].data) + 10;
+            // this.widget3Options.scales.yAxes[0].ticks.stepSize = 20;
+            // this.changeRef.detectChanges();
         }
     }
 
