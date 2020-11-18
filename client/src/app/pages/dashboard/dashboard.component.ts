@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             position: 'left',
             labels: {
                 fontColor: 'white',
-                fontSize: 16
+                fontSize: 28
             }
         },
         elements: {
@@ -59,12 +59,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                     min: 100,
                     stepSize: 100,
                     padding: 10,
-                    fontSize: 16
+                    fontSize: 22
                 },
             }],
             xAxes: [{
                 ticks: {
-                    fontColor: 'white'
+                    fontColor: 'white',
+                    fontSize: 22
                 },
             }]
         },

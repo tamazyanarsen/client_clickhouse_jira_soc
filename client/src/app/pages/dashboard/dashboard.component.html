@@ -6,7 +6,7 @@
         <div class="dashboard__widget">
             <h2>Тип инцидентов</h2>
             <div class="dashboard__widget_display">
-                <div>
+                <div class="dashboard__widget_width">
                     <canvas baseChart
                             [data]="pieChartData"
                             [labels]="pieChartLabels"
@@ -21,7 +21,7 @@
         <div class="dashboard__widget">
             <h2>Инциденты, всего: {{widget2Total}}</h2>
             <div class="dashboard__widget_display">
-                <div>
+                <div class="dashboard__widget_width">
                     <canvas baseChart
                             [data]="widget2Data"
                             [labels]="widget2Labels"
