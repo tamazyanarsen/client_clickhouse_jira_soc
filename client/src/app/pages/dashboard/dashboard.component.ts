@@ -143,7 +143,27 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             this.widget2Loading = false;
         });
 
-        if (localStorage.getItem('widget3Labels')
+        this.dashboardService.getAllTraffic().subscribe(result => {
+            this.initWidget3(result);
+        });
+
+        interval(1000 * 60)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(val => {
+                // this.dashboardService.getTraffic().subscribe(result => {
+                //     this.updateWidget3(result);
+                // });
+                this.dashboardService.getAllTraffic().subscribe(result => {
+                    this.initWidget3(result);
+                });
+            });
+    }
+
+    initWidget3(data) {
+        if (data && data.length) {
+            this.widget3Labels = data.map(e => Object.keys(e)[0]);
+            this.widget3Data[0].data.push(...data.map(e => Math.round(+(Object.values(e)[0]))));
+        } else if (localStorage.getItem('widget3Labels')
             && localStorage.getItem('widget3Data')
             && JSON.parse(localStorage.getItem('widget3Data'))
             && JSON.parse(localStorage.getItem('widget3Labels'))
@@ -154,35 +174,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             } catch (e) {
             }
         }
-        this.dashboardService.getTraffic().subscribe(result => {
-            this.updateWidget3(result);
-        });
-        // console.log(this.widget3Data, this.widget3Labels);
-
-        interval(1000 * 60)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(val => {
-                this.dashboardService.getTraffic().subscribe(result => {
-                    this.updateWidget3(result);
-                });
-            });
     }
 
     updateWidget3(result) {
-        const maxColumnsInBar = 20;
-        if (!this.widget3Labels.includes(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'))) {
-            this.widget3Labels.push(new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':'));
+        const date = new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':');
+        const maxColumnsInBar = 25;
+        if (!this.widget3Labels.includes(date)) {
+            this.widget3Labels.push(date);
             if (this.widget3Labels.length > maxColumnsInBar) {
                 this.widget3Labels.splice(0, this.widget3Labels.length - maxColumnsInBar);
             }
 
-            this.widget3Data[0].data.push(Math.round(+result / 60));
+            this.widget3Data[0].data.push(Math.round(+result));
             if (this.widget3Data[0].data.length > maxColumnsInBar) {
                 this.widget3Data[0].data.splice(0, this.widget3Labels.length - maxColumnsInBar);
             }
 
-            localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
-            localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data[0].data));
+            // localStorage.setItem('widget3Labels', JSON.stringify(this.widget3Labels));
+            // localStorage.setItem('widget3Data', JSON.stringify(this.widget3Data[0].data));
 
             // this.widget3Options.scales.yAxes[0].ticks.min = Math.min(...this.widget3Data[0].data) - 10;
             // this.widget3Options.scales.yAxes[0].ticks.max = Math.min(...this.widget3Data[0].data) + 10;

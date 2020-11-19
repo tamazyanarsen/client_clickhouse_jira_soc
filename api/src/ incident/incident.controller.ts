@@ -1,8 +1,9 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, OnModuleInit } from '@nestjs/common';
 import { IncidentService } from './incident.service';
 import { IncidentDTO } from './incident.interface';
 import { validateAccessToken } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import * as fs from 'fs';
 
 @Controller('api/incident')
 export class IncidentController {
@@ -67,11 +68,17 @@ export class IncidentController {
     async getTraffic(@Headers('authorization') accessToken: string): Promise<any> {
         if (validateAccessToken(accessToken, this.jwtService)) {
             const ch = new this.incidentService.ClickHouse({ host: 'srv-ch-11.int.soc.secure-soft.tech' });
-            const answer = await ch.querying(
-                // tslint:disable-next-line:max-line-length
-                    `SELECT count() FROM Etanol_PROD.DataFlow_v2 WHERE time_db_sec >  now() - 60 FORMAT JSONCompact`);
-            // console.log(answer.data[0][0]);
-            return answer.data[0][0];
+            const answer = await ch.querying(`SELECT count() FROM Etanol_PROD.DataFlow_v2 WHERE time_db_sec >  now() - 60 FORMAT JSONCompact`);
+            return Math.round(+answer.data[0][0] / 60);
+        } else {
+            return { status: 401 };
+        }
+    }
+
+    @Get('alltraffic')
+    async getAllTraffic(@Headers('authorization') accessToken: string): Promise<any> {
+        if (validateAccessToken(accessToken, this.jwtService)) {
+            return JSON.parse(fs.readFileSync('./ch.json').toString());
         } else {
             return { status: 401 };
         }
