@@ -16,6 +16,7 @@ import { AuthGuard } from './core/auth.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { MatRadioModule } from '@angular/material/radio';
         HttpClientModule,
         ChartsModule,
         MatRadioModule,
-        FormsModule
+        FormsModule,
+        MatSidenavModule
     ],
     providers: [{
         provide: HTTP_INTERCEPTORS,

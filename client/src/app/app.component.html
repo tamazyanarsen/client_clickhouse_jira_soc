@@ -1,10 +1,24 @@
 <div class="app">
-    <div class="app__menu">
-        <a mat-stroked-button class="app__menu_item" *ngFor="let item of menuItems">
-            {{item.name}}
-        </a>
-    </div>
+
+    <mat-drawer-container class="app__container">
+        <div class = "app__container_menu-icon" #menuButton (click)="drawer.toggle(); transformMenuIcon(menuButton)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+        <mat-drawer class="app__container_menu" #drawer mode="side">
+            <!--            <div >-->
+            <a mat-stroked-button class="app__container_menu_item" *ngFor="let item of menuItems">
+                {{item.name}}
+            </a>
+            <!--            </div>-->
+        </mat-drawer>
+
+    </mat-drawer-container>
+
+
     <div class="app__content">
         <router-outlet></router-outlet>
     </div>
 </div>
+

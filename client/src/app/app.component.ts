@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import {MatDrawer, MatDrawerContainer} from "@angular/material/sidenav";
 
 @Component({
     selector: 'app-root',
@@ -19,6 +20,11 @@ export class AppComponent implements OnInit {
     }
 
     isAuth = false;
+
+    transformMenuIcon(menuButton: HTMLDivElement) {
+        console.log('Вывод' + (menuButton.classList));
+        menuButton.classList.toggle('change');
+    }
 
     ngOnInit() {
         this.authService.isAuth.subscribe(e => {
