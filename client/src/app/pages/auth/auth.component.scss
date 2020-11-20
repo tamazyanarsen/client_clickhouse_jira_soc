@@ -8,10 +8,11 @@ div, button {
 
 .auth {
     max-width: 60%;
+    width: 75vw;
     margin: auto;
     padding-top: 5%;
     display: flex;
-    //align-items: center;
+    align-items: center;
     justify-content: center;
 
     form {

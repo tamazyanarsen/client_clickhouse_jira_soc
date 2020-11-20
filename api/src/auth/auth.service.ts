@@ -29,10 +29,8 @@ import * as crypto from 'crypto';
 //     }
 
 export function validateAccessToken(accessToken: string, jwtService: JwtService): boolean {
-    return true;
-    // TODO убрать заглушку
     try {
-        jwtService.verify(accessToken);
+        const res = jwtService.verify(accessToken);
         return true;
     } catch (e) {
         return false;

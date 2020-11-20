@@ -1,5 +1,5 @@
 <div class="app">
-    <div class="app__menu">
+    <div class="app__menu" *ngIf="isAuth">
         <a mat-stroked-button class="app__menu_item" *ngFor="let item of menuItems">
             {{item.name}}
         </a>
