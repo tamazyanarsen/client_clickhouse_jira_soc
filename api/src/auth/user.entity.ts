@@ -6,13 +6,13 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ default: '' })
     name: string;
 
     @Column({ default: '' })
     avatar: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
     @BeforeInsert()

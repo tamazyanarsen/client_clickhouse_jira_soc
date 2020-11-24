@@ -1,6 +1,6 @@
 <div class="app">
-
-    <mat-drawer-container class="app__container" autosize>
+ 
+    <mat-drawer-container *ngIf="isAuth" class="app__container" autosize>
         <div class = "app__container_menu-icon" #menuButton (click)="drawer.toggle(); transformMenuIcon(menuButton)">
             <div class="bar1"></div>
             <div class="bar2"></div>
