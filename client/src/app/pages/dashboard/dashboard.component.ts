@@ -178,7 +178,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     updateWidget3(result) {
         const date = new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':');
-        const maxColumnsInBar = 25;
+        const maxColumnsInBar = 30;
         if (!this.widget3Labels.includes(date)) {
             this.widget3Labels.push(date);
             if (this.widget3Labels.length > maxColumnsInBar) {
@@ -200,9 +200,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    logout() {
-        this.authService.logout();
-    }
+
 
     showWidget3Seconds() {
         const result = this.widget3Arr;

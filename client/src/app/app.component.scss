@@ -49,6 +49,14 @@
         align-items: center;
         justify-content: center;
     }
+
+    &__content100 {
+        flex: 100%;
+    }
+
+    &__container1{
+        flex: 1%;
+    }
 }
 
 .bar1, .bar2, .bar3 {

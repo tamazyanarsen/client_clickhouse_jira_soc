@@ -1,23 +1,21 @@
 <div class="app">
- 
-    <mat-drawer-container *ngIf="isAuth" class="app__container" autosize>
-        <div class = "app__container_menu-icon" #menuButton (click)="drawer.toggle(); transformMenuIcon(menuButton)">
+
+    <mat-drawer-container [class.app__container1]="!isMenuVisible" *ngIf="isAuth" class="app__container" autosize>
+        <div class = "app__container_menu-icon" #menuButton (click)="drawer.toggle(); transformMenuIcon(menuButton); isMenuVisible = !isMenuVisible">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
         </div>
         <mat-drawer class="app__container_menu" #drawer mode="side">
-            <!--            <div >-->
-            <a mat-stroked-button class="app__container_menu_item" *ngFor="let item of menuItems">
+            <a (click)="item.action()" mat-stroked-button class="app__container_menu_item" *ngFor="let item of menuItems">
                 {{item.name}}
             </a>
-            <!--            </div>-->
         </mat-drawer>
 
     </mat-drawer-container>
 
 
-    <div class="app__content">
+    <div class="app__content" [class.app__content100]="!isMenuVisible">
         <router-outlet></router-outlet>
     </div>
 </div>
