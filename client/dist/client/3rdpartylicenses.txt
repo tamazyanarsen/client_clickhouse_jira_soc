@@ -89,6 +89,8 @@ THE SOFTWARE.
 
 @angular/material/form-field
 
+@angular/material/sidenav
+
 @angular/platform-browser
 MIT
 

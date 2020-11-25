@@ -5,36 +5,76 @@
     background-color: #383838d9;
     font-size: 1.4rem;
 
-    &__menu {
-        flex: 20%;
-        display: flex;
-        flex-direction: column;
+    &__container{
         height: 100%;
-        position: relative;
+        flex: 15%;
+        flex-direction: column;
 
-        &_item {
+        &_menu-icon{
+            position: fixed;
+            margin: 5px;
+            left: 0;
+        }
+
+        &_menu {
+            position: absolute;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 10vh;
-            font-size: 1.2em;
-            margin: 2%;
-            border-color: lightgoldenrodyellow;
-            color: lightgoldenrodyellow;
+            width: 100%;
+            top: 5%;
+            background-color: transparent;
 
-            &:last-child {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
+            &_item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 10vh;
+                font-size: 1em;
+                margin: 2%;
+                width: 95%;
+                border-color: lightgoldenrodyellow;
+
+                &:last-child {
+                    position: absolute;
+                    bottom: 0;
+
+                }
             }
         }
     }
 
     &__content {
-        flex: 80%;
         display: flex;
+        flex: 80%;
         height: 100%;
         align-items: center;
         justify-content: center;
     }
+
+    &__content100 {
+        flex: 100%;
+    }
+
+    &__container1{
+        flex: 1%;
+    }
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #ffffff;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
 }

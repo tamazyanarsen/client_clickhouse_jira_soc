@@ -15,7 +15,7 @@ export class IncidentService extends NestSchedule {
     async scheduledJobForCH() {
         const ch = new this.ClickHouse({ host: 'srv-ch-11.int.soc.secure-soft.tech' });
         const answer = await ch.querying(`SELECT count() FROM Etanol_PROD.DataFlow_v2 WHERE time_db_sec >  now() - 60 FORMAT JSONCompact`);
-        const maxLines = 25;
+        const maxLines = 30;
         const date = new Date().toString().split(' ')[4].split(':').slice(0, -1).join(':');
         const writeData = Math.round(+answer.data[0][0] / 60);
         if (fs.existsSync('./ch.json')) {
