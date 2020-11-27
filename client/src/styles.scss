@@ -29,6 +29,7 @@ $test-theme: mat-dark-theme($test-primary, $test-accent, $test-warn);
 
 html, body {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
